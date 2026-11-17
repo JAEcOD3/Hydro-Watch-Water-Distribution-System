@@ -1,0 +1,644 @@
+
+/* =========================================
+   HYDROWATCH — WATER MONITORING DASHBOARD
+   ========================================= */
+
+/* Define the dashboard's main colors and settings. */
+:root {
+    --background: #07111f;
+    --panel: #101e30;
+    --panel-light: #14263b;
+    --border: rgba(125, 177, 220, 0.14);
+    --text: #eaf5ff;
+    --muted: #8298b1;
+    --blue: #20bfff;
+    --cyan: #48e0e8;
+    --green: #42e6a4;
+    --red: #ff5c75;
+}
+
+/* Apply consistent sizing to every element. */
+* {
+    box-sizing: border-box;
+}
+
+/* Style the overall page. */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(20, 113, 180, 0.17), transparent 45%),
+        var(--background);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Keep the dashboard centered and readable. */
+.dashboard {
+    width: min(1440px, 94%);
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+/* Header layout. */
+.topbar,
+.brand,
+.system-status,
+.welcome,
+.live-indicator,
+.panel-heading,
+.legend,
+.simulation-controls {
+    display: flex;
+    align-items: center;
+}
+
+/* Arrange header content on opposite sides. */
+.topbar,
+.welcome,
+.panel-heading {
+    justify-content: space-between;
+}
+
+/* Brand styling. */
+.brand {
+    gap: 13px;
+}
+
+.brand-icon {
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #087bb8, #35d9ed);
+    color: #061322;
+    font-size: 25px;
+    font-weight: 900;
+    box-shadow: 0 0 25px rgba(32, 191, 255, 0.25);
+}
+
+.brand h1 {
+    margin: 0;
+    letter-spacing: 2px;
+    font-size: 17px;
+}
+
+.brand p,
+.eyebrow {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+/* Online indicators. */
+.system-status,
+.live-indicator {
+    gap: 9px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+    animation: pulse 1.8s infinite;
+}
+
+/* Dashboard introduction. */
+.welcome {
+    margin: 55px 0 28px;
+}
+
+.welcome h2 {
+    margin: 10px 0;
+    font-size: clamp(30px, 4vw, 43px);
+    letter-spacing: -1.5px;
+}
+
+.welcome h2 span {
+    color: var(--blue);
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Summary statistic cards. */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-card,
+.panel {
+    background: linear-gradient(145deg, var(--panel-light), var(--panel));
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.stat-card {
+    padding: 21px;
+    min-height: 125px;
+}
+
+.stat-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 800;
+}
+
+.stat-card h3 {
+    margin: 13px 0 4px;
+    color: var(--blue);
+    font-size: 29px;
+}
+
+.stat-card span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* Shared panel styling. */
+.panel {
+    padding: 23px;
+    margin-bottom: 20px;
+}
+
+.panel-heading {
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.panel-heading h3 {
+    margin: 7px 0 0;
+    font-size: 17px;
+}
+
+.panel-tag {
+    padding: 7px 10px;
+    border: 1px solid rgba(32, 191, 255, 0.25);
+    border-radius: 7px;
+    color: var(--blue);
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+/* Network visualization area. */
+.network-container {
+    width: 100%;
+    min-height: 300px;
+    overflow: hidden;
+    border-radius: 12px;
+    background:
+        linear-gradient(rgba(45, 100, 140, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(45, 100, 140, 0.07) 1px, transparent 1px),
+        #091625;
+    background-size: 30px 30px;
+}
+
+#water-network {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Network legend. */
+.legend {
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.legend-dot.blue {
+    background: var(--blue);
+    box-shadow: 0 0 9px var(--blue);
+}
+
+.legend-dot.red {
+    background: var(--red);
+}
+
+.legend-dot.green {
+    background: var(--green);
+}
+
+/* Two-column information section. */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.content-grid .panel {
+    margin-bottom: 0;
+}
+
+/* Data rows populated by JavaScript. */
+.data-list {
+    display: grid;
+    gap: 10px;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: rgba(5, 16, 29, 0.35);
+}
+
+.data-row strong {
+    display: block;
+    font-size: 12px;
+}
+
+.data-row small {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.data-status {
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Failure simulation controls. */
+.simulation-panel {
+    margin-top: 20px;
+}
+
+.simulation-controls {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.simulation-controls label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+select,
+button {
+    min-height: 42px;
+    padding: 0 15px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+select {
+    min-width: 180px;
+    border: 1px solid var(--border);
+    background: #091625;
+    color: var(--text);
+}
+
+button {
+    border: none;
+    background: linear-gradient(100deg, #0788c8, #20c5e7);
+    color: #041321;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Make disabled buttons appear dormant and faded grey. */
+button:disabled {
+    background: #354252;
+    color: #8795a5;
+    cursor: not-allowed;
+    opacity: 0.55;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Keep active buttons blue and interactive. */
+button:not(:disabled) {
+    opacity: 1;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 22px rgba(32, 191, 255, 0.2);
+}
+
+.simulation-result {
+    margin-top: 18px;
+    padding: 15px;
+    min-height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Dashboard footer. */
+footer {
+    padding: 25px 0 10px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+footer span {
+    color: var(--blue);
+}
+
+/* Subtle glowing pulse effect. */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 12px var(--green);
+    }
+
+    50% {
+        opacity: 0.45;
+        box-shadow: 0 0 3px var(--green);
+    }
+}
+
+/* Adapt the dashboard for tablets and phones. */
+@media (max-width: 800px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard {
+        width: 92%;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .system-status {
+        font-size: 9px;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+}
+
+/* Style the backup pump confirmation popup. */
+.pump-popup {
+    margin-top: 20px;
+    padding: 22px;
+    background: #101f32;
+    border: 1px solid #e5a33b;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(229, 163, 59, 0.12);
+}
+
+/* Hide the popup completely until it is requested. */
+.pump-popup[hidden] {
+    display: none;
+}
+
+/* Style the emergency popup heading. */
+.pump-popup h3 {
+    color: #e5a33b;
+    font-size: 16px;
+    margin-top: 0;
+}
+
+/* Style the popup message. */
+.pump-popup p {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Give the pump activation button a green confirmation style. */
+#activate-pump-button {
+    background: linear-gradient(100deg, #078b62, #20c98b);
+    color: #041321;
+}
+
+/* Give the cancel button a muted grey style. */
+#cancel-pump-button {
+    background: #354252;
+    color: #d0d8e2;
+}
+
+/* Style the navigation link between dashboard pages. */
+.engineer-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 15px;
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    transition: 0.2s;
+}
+
+/* Highlight the navigation link when hovered. */
+.engineer-link:hover {
+    background: var(--cyan);
+    color: #041321;
+    box-shadow: 0 0 15px rgba(32, 191, 255, 0.2);
+}
+
+
+/* Highlight FIX PIPELINE when engineer approval is received. */
+#fix-button.fix-ready {
+    background: linear-gradient(100deg, #0788c8, #00f5ff);
+    color: #041321;
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+    animation: fixGlow 1.5s ease-in-out infinite alternate;
+}
+
+/* Make the cyan glow gently pulse. */
+@keyframes fixGlow {
+    from {
+        box-shadow: 0 0 8px rgba(0, 245, 255, 0.35);
+    }
+
+    to {
+        box-shadow: 0 0 25px rgba(0, 245, 255, 0.9);
+    }
+}
+
+
+/* =========================================
+   HYDROWATCH — PIPELINE WATER ANIMATION
+   ========================================= */
+
+/* Create the moving water effect inside normal pipelines. */
+.water-flow {
+    fill: none;
+    stroke: #48e0e8;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 5 12;
+    animation: waterMovement 1.2s linear infinite;
+    pointer-events: none;
+}
+
+/* Make backup pipeline water appear brighter. */
+.backup-water-flow {
+    fill: none;
+    stroke: #00f5ff;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 5 10;
+    animation: waterMovement 0.7s linear infinite;
+    filter: drop-shadow(0 0 5px #00f5ff);
+    pointer-events: none;
+}
+
+/* Move the water particles along the pipeline. */
+@keyframes waterMovement {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -34;
+    }
+}
+
+/* Make backup water particles clearly visible. */
+.backup-water-flow {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+
+    /* Create separated moving water particles. */
+    stroke-dasharray: 2 13;
+
+    /* Make the particles move faster. */
+    animation: backupWaterMovement 0.65s linear infinite;
+
+    /* Add a bright white and cyan glow. */
+    filter:
+        drop-shadow(0 0 3px #ffffff)
+        drop-shadow(0 0 7px #00f5ff);
+
+    pointer-events: none;
+}
+
+/* Move backup water through the pipeline. */
+@keyframes backupWaterMovement {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -30;
+    }
+}
+
+
+/* ==========================================
+   HYDROWATCH - INFRASTRUCTURE ACTIVITY LOG
+   ========================================== */
+
+/* Keep the activity log organized and scrollable. */
+.activity-panel .data-list {
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+/* Give each logged event its own monitoring row. */
+.activity-panel .data-row {
+    background: rgba(5, 16, 29, 0.55);
+    border-left: 3px solid var(--blue);
+    transition: background 0.2s ease;
+}
+
+/* Highlight an event when the mouse moves over it. */
+.activity-panel .data-row:hover {
+    background: rgba(32, 191, 255, 0.08);
+}
+
+/* Style the event severity labels. */
+.event-severity {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* Warning events appear yellow. */
+.event-severity.warning {
+    color: #e5a33b;
+}
+
+/* Informational events appear cyan. */
+.event-severity.info {
+    color: var(--cyan);
+}
+
+/* Critical events appear red. */
+.event-severity.critical {
+    color: var(--red);
+}
+
+/* Error events appear red. */
+.event-severity.error {
+    color: var(--red);
+}

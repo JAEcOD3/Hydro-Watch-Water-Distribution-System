@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set the character encoding and responsive page size. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Set the engineer page browser title. -->
+    <title>HydroWatch | Engineer Maintenance</title>
+
+    <!-- Reuse the main dashboard stylesheet. -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Main engineer maintenance container. -->
+    <main class="dashboard">
+
+        <!-- Engineer page header. -->
+        <header class="topbar">
+
+            <!-- HydroWatch branding. -->
+            <div class="brand">
+                <div class="brand-icon">H</div>
+                <div>
+                    <h1>Y2C</h1>
+                    <p>ENGINEER MAINTENANCE PORTAL</p>
+                </div>
+            </div>
+
+            <!-- Return to the main dashboard. -->
+            <a href="index.html" class="engineer-link">
+                BACK TO DASHBOARD
+            </a>
+
+        </header>
+
+        <!-- Engineer page introduction. -->
+        <section class="welcome">
+            <div>
+                <p class="eyebrow">FIELD OPERATIONS</p>
+                <h2>Pipeline <span>Repair Checklist</span></h2>
+                <p class="subtitle">
+                    Complete and verify every required maintenance task before restoring water flow.
+                </p>
+            </div>
+        </section>
+
+        <!-- Pipeline repair information. -->
+        <section class="panel">
+            <p class="eyebrow">MAINTENANCE RECORD</p>
+            <h3>Failed Pipeline Information</h3>
+
+            <p id="engineer-pipeline">
+                No pipeline selected.
+            </p>
+        </section>
+
+        <!-- Engineer repair checklist. -->
+        <section class="panel">
+            <p class="eyebrow">INSPECTION AND REPAIR</p>
+            <h3>Required Maintenance Tasks</h3>
+
+            <!-- Engineer checks off each completed task. -->
+            <div class="data-list">
+
+                <label>
+                    <input type="checkbox" class="repair-task">
+                    Inspect the damaged pipeline.
+                </label>
+
+                <label>
+                    <input type="checkbox" class="repair-task">
+                    Identify the cause of failure.
+                </label>
+
+                <label>
+                    <input type="checkbox" class="repair-task">
+                    Repair or replace the damaged section.
+                </label>
+
+                <label>
+                    <input type="checkbox" class="repair-task">
+                    Check pipeline connections and seals.
+                </label>
+
+                <label>
+                    <input type="checkbox" class="repair-task">
+                    Perform a pressure and leakage test.
+                </label>
+
+                <label>
+                    <input type="checkbox" class="repair-task">
+                    Confirm that the pipeline is safe to operate.
+                </label>
+
+            </div>
+
+            <!-- Show checklist completion progress. -->
+            <p id="repair-progress">
+                0 of 6 maintenance tasks completed.
+            </p>
+
+            <!-- Submit the completed maintenance checklist. -->
+            <button id="complete-maintenance-button" type="button" disabled>
+                MARK MAINTENANCE COMPLETE
+            </button>
+
+            <!-- Display engineer completion status. -->
+            <p id="maintenance-status" class="simulation-result">
+                Complete all maintenance tasks to authorize restoration.
+            </p>
+
+        </section>
+
+        <!-- Return to the main dashboard. -->
+        <footer>
+            Y2C <span>•</span> HYDROWATCH ENGINEERING
+        </footer>
+
+    </main>
+
+    <!-- Load the engineer page JavaScript. -->
+    <script src="engineer.js"></script>
+
+</body>
+</html>
